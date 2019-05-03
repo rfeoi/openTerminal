@@ -1,0 +1,16 @@
+[
+{
+  "modid": "openterminal",
+  "name": "Open Terminal",
+  "description": "Provides API for Applied Energistics.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["felixlpge", "robmroi03"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
