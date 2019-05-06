@@ -1,18 +1,22 @@
 package de.rfeoi.openterminal.api;
 
+import com.google.gson.annotations.SerializedName;
 import de.rfeoi.openterminal.OpenTerminal;
 import net.minecraft.item.ItemStack;
 
 public class CraftingTask {
 
-    private ItemStack output;
+    private transient ItemStack output;
+    @SerializedName("calculated_needed_time")
+    private String calcTime;
 
     /**
      * Crafting Task
      * @param itemStack which the task produces
      */
-    public CraftingTask(ItemStack itemStack) {
+    public CraftingTask(ItemStack itemStack, String calcTime) {
         output = itemStack;
+        this.calcTime = calcTime;
     }
 
     /**
@@ -23,11 +27,5 @@ public class CraftingTask {
         return output;
     }
 
-    /**
-     * Returns JSON of Class
-     * @return String json formatted
-     */
-    public String getJSON() {
-        return OpenTerminal.GSON.toJson(this);
-    }
+
 }
