@@ -1,9 +1,10 @@
 package de.rfeoi.openterminal.webApi;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class HTTPRequest {
-    private String path, type;
+    private String path, method;
     private HashMap<String, String> header, query;
 
     public HTTPRequest() {
@@ -19,12 +20,12 @@ public class HTTPRequest {
         this.path = path;
     }
 
-    public String getType() {
-        return type;
+    public String getMethod() {
+        return method;
     }
 
-    void setType(String type) {
-        this.type = type;
+    void setMethod(String method) {
+        this.method = method;
     }
 
     void addQueryParameter(String name, String value) {
@@ -42,4 +43,18 @@ public class HTTPRequest {
     public String getHeader(String headerName) {
         return header.get(headerName);
     }
+
+    public int getQueryOptionsCount() {
+        return query.size();
+    }
+
+    public String[] getSpecifiedQueryOptions() {
+        Object[] options = query.keySet().toArray();
+        return Arrays.copyOf(options, options.length, String[].class);
+    }
+
+    public String getQuery(String query) {
+        return this.query.get(query);
+    }
 }
+

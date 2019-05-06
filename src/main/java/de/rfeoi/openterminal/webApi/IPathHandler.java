@@ -6,6 +6,7 @@ import java.util.Dictionary;
 
 public interface IPathHandler {
     String getPath();
+    String getMethod();
     String[] getNeededQueryParams();
     String handle(HTTPRequest query, IPluginStorage storage);
 }

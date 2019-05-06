@@ -1,11 +1,14 @@
 # Documentation
 WebAPI
 
-Transfer:
+## Transfer:
 
-Header:
--  SystemNO = Custom 6 Digit Number of System
+### Header:
+-  stationNumber = Custom 6 Digit Number of System
 
-Get Arguments:
-
-Contains the important Value needed by paths
+### Get Arguments:
+ - In /items: type (Can be "all", "stored" or "craftable")
+ 
+ 
+## Hints:
+- In /items: craftable item count does not matter.

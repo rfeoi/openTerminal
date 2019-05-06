@@ -1,10 +1,12 @@
 package de.rfeoi.openterminal.webApi;
 
 import de.rfeoi.openterminal.webApi.handler.CraftingTaskHandler;
+import de.rfeoi.openterminal.webApi.handler.ItemsHandler;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 
 import static de.rfeoi.openterminal.api.API.API;
 
@@ -12,7 +14,7 @@ public class WebAPI implements Runnable{
 
     private ServerSocket server;
     private static final String HEADER_STATION = "stationNumber";
-    private static final IPathHandler[] PATH_HANDLERS = new IPathHandler[]{new CraftingTaskHandler()};
+    private static final IPathHandler[] PATH_HANDLERS = new IPathHandler[]{new CraftingTaskHandler(), new ItemsHandler()};
 
     public WebAPI(int port) throws IOException {
         server = new ServerSocket(port);
@@ -44,7 +46,7 @@ public class WebAPI implements Runnable{
                 } else {
                     // First line (e.g. POST /terminal/items?test=1 HTTP/1.1)
                     if (line.contains(" ") && line.split(" ").length == 3){
-                        httpRequest.setType(line.split(" ")[0]);
+                        httpRequest.setMethod(line.split(" ")[0]);
                         String wholePath = line.split(" ")[1];
                         // Check if it has get arguments
                         if (wholePath.contains("?")) {
@@ -75,7 +77,7 @@ public class WebAPI implements Runnable{
         }
         // Sending response
         {
-            IPathHandler handler = getHandler(httpRequest.getPath());
+            IPathHandler handler = getHandler(httpRequest.getPath(), httpRequest.getMethod());
             String response, statusCode;
             // Content creation
             if (handler == null) {
@@ -86,6 +88,10 @@ public class WebAPI implements Runnable{
             else if (!httpRequest.hasHeader(HEADER_STATION) || !API.hasStation(httpRequest.getHeader(HEADER_STATION))) {
                 response = "{\"status\": 403, \"error\": \"Station ID not present or wrong\"}";
                 statusCode = "403";
+            }
+            else if (httpRequest.getQueryOptionsCount() != handler.getNeededQueryParams().length || !Arrays.equals(httpRequest.getSpecifiedQueryOptions(), handler.getNeededQueryParams())) {
+                response = "{\"status\": 404, \"error\": \"Wrong query options specified\"}";
+                statusCode = "404";
             }
             else {
                 // Everything should process correctly
@@ -102,9 +108,9 @@ public class WebAPI implements Runnable{
         client.close();
     }
 
-    private IPathHandler getHandler(String path) {
+    private IPathHandler getHandler(String path, String method) {
         for (IPathHandler handler : PATH_HANDLERS) {
-            if (handler.getPath().equals(path)) {
+            if (handler.getPath().equals(path) && handler.getMethod().equals(method)) {
                 return handler;
             }
         }
