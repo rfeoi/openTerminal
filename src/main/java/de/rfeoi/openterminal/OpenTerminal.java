@@ -1,11 +1,15 @@
 package de.rfeoi.openterminal;
 
 import com.google.gson.Gson;
+import de.rfeoi.openterminal.api.API;
+import de.rfeoi.openterminal.api.storageHandler.DebugStorage;
 import de.rfeoi.openterminal.webApi.WebAPI;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 
 import java.io.IOException;
+import java.util.prefs.AbstractPreferences;
 
 @Mod(modid = OpenTerminal.MOD_ID, name = OpenTerminal.NAME, version = OpenTerminal.VERSION)
 public class OpenTerminal {
@@ -21,5 +25,10 @@ public class OpenTerminal {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Mod.EventHandler
+    public void onPreInit(FMLPreInitializationEvent event) {
+        API.API.registerStorageType(new DebugStorage.DebugStorageType());
     }
 }
