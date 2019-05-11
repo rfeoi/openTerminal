@@ -5,15 +5,14 @@ import de.rfeoi.openterminal.api.storageHandler.DebugStorage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Random;
 
 public class API {
 
     public static final API API = new API();
-    private ArrayList<StorageType> storageTypes;
     private HashMap<String, IPluginStorage> stationConnector;
 
     public API() {
-        storageTypes = new ArrayList<>();
         stationConnector = new HashMap<>();
         //TODO add Config option to disable
         stationConnector.put("DEBUG", new DebugStorage());
@@ -27,12 +26,9 @@ public class API {
         return stationConnector.containsKey(stationID);
     }
 
-    public void registerStorageType(StorageType storageType) {
-        storageTypes.add(storageType);
-    }
-
-    public StorageType[] getStorageTypes() {
-        Object[] array = storageTypes.toArray();
-        return Arrays.copyOf(array, array.length, StorageType[].class);
+    public String addStorage(IPluginStorage storage) {
+        String station = new Random().nextInt(999999) + "";
+        stationConnector.put(station, storage);
+        return station;
     }
 }
