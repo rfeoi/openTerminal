@@ -17,7 +17,7 @@ We wanted to create an App to see your ME. (yes, pretty nerdy)
 `IPluginStorage storage = de.rfeoi.openterminal.api.API.API.getStorage(your id here)`<br>
 Now you have an instance of IPluginStorage (see src/main/de/rfeoi/openterminal/api/IPluginStorage for functions and documentation)
 #### From the Web:
-For further Infos look [in the README of the Web API](https//github.com/rfeoi/openterminal/src/de/rfeoi/openterminal/webApi/README.md).
+For further Infos look [in the README of the Web API](https://github.com/rfeoi/openterminal/src/de/rfeoi/openterminal/webApi/README.md).
 ### Can I contribute?
 We are happy to accept pull requests.<br>
 If you want to fix a bug: Fix it.<br>
